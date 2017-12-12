@@ -2,11 +2,12 @@ Settings for the simulation
 #
 
 ## Scenario settings
-Scenario.name = DCA-DTN
+Scenario.name = %%Group.router%%
 Scenario.simulateConnections = true
 Scenario.updateInterval = 1.0
 # 43200s == 12h
-Scenario.endTime = 43200 
+# 259000s == 3d
+Scenario.endTime = 259200 
 Scenario.nrofHostGroups = 4 
 
 ## Interface-specific settings:
@@ -21,7 +22,8 @@ Scenario.nrofHostGroups = 4
 btInterface.type = DistanceCapacityInterface 
 # Transmit speed of 2 Mbps = 250kBps
 btInterface.transmitSpeeds = [5M, 3M, 2M, 1M]
-btInterface.transmitRange = 10
+#btInterface.transmitSpeed = 5M
+btInterface.transmitRange = 400
 
 
 ## Group-specific settings:
@@ -44,15 +46,15 @@ btInterface.transmitRange = 10
 # routeType: route's type - for MapRouteMovement
 
 # Common settings for all groups
-Group1.movementModel = MapBasedMovement 
+Group1.movementModel = ShortestPathMapBasedMovement 
 #Group.movementModel = RandomWaypoint
-Group.router = EpidemicRouter
+Group.router = [EpidemicRouter;SprayAndWaitRouter]
 Group.bufferSize = 5M
 # All nodes have the bluetooth interface
 Group.nrofInterfaces = 1
 Group.interface1 = btInterface
 # Walking speeds
-Group1.speed = 0.5, 1.5
+Group1.speed = 0.1, 0.1
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
 Group1.nrofHosts = 5 
@@ -62,19 +64,19 @@ Group1.okMaps = 1
 Group2.movementModel = MapBasedMovement
 Group2.nrofHosts = 5 
 Group2.groupID = t
-Group2.speed = 0.5, 1.5
+Group2.speed = 0.2,0.2
 Group2.okMaps = 2 
 
 Group3.movementModel = MapBasedMovement
 Group3.nrofHosts = 5
 Group3.groupID = x 
-Group3.speed = 0.5, 1.5
+Group3.speed = 0.3,0.3
 Group3.okMaps = 3
 
 Group4.movementModel = MapBasedMovement
 Group4.nrofHosts = 5
-Group4.groupID = z
-Group4.speed = 0.5, 1.5
+Group4.groupID = w 
+Group4.speed = 0.4,0.4
 Group4.okMaps = 5
 
 MapBasedMovement.nrofMapFiles = 5 
@@ -88,9 +90,9 @@ MapBasedMovement.mapFile5 = data/orbits5.wkt
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
-MovementModel.rngSeed = 1
+#MovementModel.rngSeed = 1
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 2000, 2000
+#MovementModel.worldSize = 2000, 2000
 # How long time to move hosts in the world before real simulation
 
 
@@ -102,7 +104,8 @@ Events1.class = MessageEventGenerator
 # (following settings are specific for the MessageEventGenerator class)
 # Creation interval in seconds (one new message every 25 to 35 seconds)
 #Ask Chris what this should be
-Events1.interval = 25,35
+#Modified from 25,35
+Events1.interval = 3600, 7200
 # Message sizes (500kB - 1MB)
 Events1.size = 500k,1M
 # range of message source/destination addresses
