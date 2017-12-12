@@ -6,8 +6,8 @@ Scenario.name = DCA-DTN
 Scenario.simulateConnections = true
 Scenario.updateInterval = 1.0
 # 43200s == 12h
-Scenario.endTime = 50000
-Scenario.nrofHostGroups = 3 
+Scenario.endTime = 43200 
+Scenario.nrofHostGroups = 4 
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -17,10 +17,11 @@ Scenario.nrofHostGroups = 3
 # transmitRange : range of the interface (meters)
 
 # "Bluetooth" interface for all nodes
-btInterface.type = SimpleBroadcastInterface
+#btInterface.type = SimpleBroadcastInterface
+btInterface.type = DistanceCapacityInterface 
 # Transmit speed of 2 Mbps = 250kBps
-btInterface.transmitSpeed = 5M
-btInterface.transmitRange = 100
+btInterface.transmitSpeeds = [5M, 3M, 2M, 1M]
+btInterface.transmitRange = 10
 
 
 ## Group-specific settings:
@@ -70,15 +71,20 @@ Group3.groupID = x
 Group3.speed = 0.5, 1.5
 Group3.okMaps = 3
 
+Group4.movementModel = MapBasedMovement
+Group4.nrofHosts = 5
+Group4.groupID = z
+Group4.speed = 0.5, 1.5
+Group4.okMaps = 5
 
-
-MapBasedMovement.nrofMapFiles = 4 
+MapBasedMovement.nrofMapFiles = 5 
 
 MapBasedMovement.mapFile1 = data/orbits1.wkt
 MapBasedMovement.mapFile2 = data/orbits2.wkt
 MapBasedMovement.mapFile3 = data/orbits3.wkt
-MapBasedMovement.mapFile4 = data/orbits.wkt
-
+#MapBasedMovement.mapFile4 = data/orbits.wkt
+MapBasedMovement.mapFile4 = data/orbits4.wkt
+MapBasedMovement.mapFile5 = data/orbits5.wkt
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
@@ -95,11 +101,12 @@ Events.nrof = 1
 Events1.class = MessageEventGenerator
 # (following settings are specific for the MessageEventGenerator class)
 # Creation interval in seconds (one new message every 25 to 35 seconds)
+#Ask Chris what this should be
 Events1.interval = 25,35
 # Message sizes (500kB - 1MB)
 Events1.size = 500k,1M
 # range of message source/destination addresses
-Events1.hosts = 0,14
+Events1.hosts = 0,19
 # Message ID prefix
 Events1.prefix = M
 
@@ -114,7 +121,8 @@ Report.report1 = MessageStatsReport
 ## Optimization settings -- these affect the speed of the simulation
 ## see World class for details.
 Optimization.cellSizeMult = 5
- settings
+Optimization.randomizeUpdateOrder = true
+
 
 # GUI underlay image settings
 #GUI.UnderlayImage.fileName = data/helsinki_underlay.png
